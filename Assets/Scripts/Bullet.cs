@@ -4,12 +4,23 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
     public float lifeTime = 3f;
+    public int damage = 1;
 
-    private Vector2 direction;
+    private Rigidbody2D rb;
 
     public void SetDirection(Vector2 shootDirection)
     {
-        direction = shootDirection.normalized;
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        rb.linearVelocity = shootDirection.normalized * speed;
+    }
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -17,8 +28,14 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
+
+        if (enemyHealth != null)
+        {
+            enemyHealth.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
