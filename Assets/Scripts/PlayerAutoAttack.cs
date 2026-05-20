@@ -1,0 +1,61 @@
+using UnityEngine;
+
+public class PlayerAutoAttack : MonoBehaviour
+{
+    public GameObject bulletPrefab;
+    public float attackRange = 8f;
+    public float attackCooldown = 0.5f;
+
+    private float attackTimer;
+
+    private void Update()
+    {
+        attackTimer -= Time.deltaTime;
+
+        if (attackTimer <= 0f)
+        {
+            Transform target = FindNearestEnemy();
+
+            if (target != null)
+            {
+                Shoot(target);
+                attackTimer = attackCooldown;
+            }
+        }
+    }
+
+    private Transform FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        Transform nearestEnemy = null;
+        float nearestDistance = attackRange;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = enemy.transform;
+            }
+        }
+
+        return nearestEnemy;
+    }
+
+    private void Shoot(Transform target)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+        Vector2 direction = target.position - transform.position;
+
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        if (bulletScript != null)
+        {
+            bulletScript.SetDirection(direction);
+        }
+    }
+}
