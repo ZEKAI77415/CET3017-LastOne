@@ -18,6 +18,20 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
 
         isGameOver = true;
+
+        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+
+        if (waveManager != null)
+        {
+            int bestWave = PlayerPrefs.GetInt("BestWave", 0);
+
+            if (waveManager.currentWave > bestWave)
+            {
+                PlayerPrefs.SetInt("BestWave", waveManager.currentWave);
+                PlayerPrefs.Save();
+            }
+        }
+
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f;
     }
@@ -26,5 +40,11 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }
