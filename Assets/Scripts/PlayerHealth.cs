@@ -36,8 +36,12 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Game Over");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager gameManager = FindFirstObjectByType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
+        }
     }
     public void IncreaseMaxHealth()
     {
