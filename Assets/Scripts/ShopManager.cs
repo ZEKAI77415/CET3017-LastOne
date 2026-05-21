@@ -6,6 +6,11 @@ public class ShopManager : MonoBehaviour
 
     public PlayerAutoAttack playerAttack;
     public PlayerHealth playerHealth;
+    public PlayerCurrency playerCurrency;
+
+    public int damageCost = 5;
+    public int attackSpeedCost = 5;
+    public int healthCost = 5;
 
     private WaveManager waveManager;
 
@@ -23,20 +28,29 @@ public class ShopManager : MonoBehaviour
 
     public void BuyDamageUpgrade()
     {
-        playerAttack.IncreaseDamage();
-        CloseShop();
+        if (playerCurrency.SpendGold(damageCost))
+        {
+            playerAttack.IncreaseDamage();
+            CloseShop();
+        }
     }
 
     public void BuyAttackSpeedUpgrade()
     {
-        playerAttack.IncreaseAttackSpeed();
-        CloseShop();
+        if (playerCurrency.SpendGold(attackSpeedCost))
+        {
+            playerAttack.IncreaseAttackSpeed();
+            CloseShop();
+        }
     }
 
     public void BuyHealthUpgrade()
     {
-        playerHealth.IncreaseMaxHealth();
-        CloseShop();
+        if (playerCurrency.SpendGold(healthCost))
+        {
+            playerHealth.IncreaseMaxHealth();
+            CloseShop();
+        }
     }
 
     private void CloseShop()

@@ -9,4 +9,16 @@ public class PlayerCurrency : MonoBehaviour
         gold += amount;
         Debug.Log("Gold: " + gold);
     }
+
+    public bool SpendGold(int amount)
+    {
+        if (gold >= amount)
+        {
+            gold -= amount;
+            return true;
+        }
+
+        Debug.Log("Not enough gold");
+        return false;
+    }
 }
