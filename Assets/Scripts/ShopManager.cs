@@ -31,7 +31,6 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(damageCost))
         {
             playerAttack.IncreaseDamage();
-            CloseShop();
         }
     }
 
@@ -40,7 +39,6 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(attackSpeedCost))
         {
             playerAttack.IncreaseAttackSpeed();
-            CloseShop();
         }
     }
 
@@ -49,7 +47,6 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(healthCost))
         {
             playerHealth.IncreaseMaxHealth();
-            CloseShop();
         }
     }
 
@@ -63,7 +60,7 @@ public class ShopManager : MonoBehaviour
             waveManager.StartNextWaveFromShop();
         }
     }
-    public void SkipUpgrade()
+    public void StartNextWave()
     {
         CloseShop();
     }
