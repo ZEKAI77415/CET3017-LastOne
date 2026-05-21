@@ -63,4 +63,8 @@ public class ShopManager : MonoBehaviour
             waveManager.StartNextWaveFromShop();
         }
     }
+    public void SkipUpgrade()
+    {
+        CloseShop();
+    }
 }
