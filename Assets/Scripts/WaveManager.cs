@@ -10,8 +10,8 @@ public class WaveManager : MonoBehaviour
     public int baseEnemyCount = 3;
     public float timeBetweenSpawns = 0.5f;
 
-    private int enemiesAlive;
     private bool isSpawning;
+    private bool shopOpened;
     private ShopManager shopManager;
 
     private void Start()
@@ -20,9 +20,23 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(StartWave());
     }
 
+    private void Update()
+    {
+        if (!isSpawning && !shopOpened)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            if (enemies.Length == 0)
+            {
+                OpenShopAfterWave();
+            }
+        }
+    }
+
     private IEnumerator StartWave()
     {
         isSpawning = true;
+        shopOpened = false;
 
         int enemyCount = baseEnemyCount + currentWave;
 
@@ -37,24 +51,24 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        if (enemyPrefab == null || spawnPoints.Length == 0)
+        {
+            Debug.LogWarning("Enemy Prefab or Spawn Points not assigned.");
+            return;
+        }
 
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-        enemiesAlive++;
     }
 
     public void EnemyDied()
     {
-        enemiesAlive--;
-
-        if (enemiesAlive <= 0 && !isSpawning)
-        {
-            OpenShopAfterWave();
-        }
     }
 
     private void OpenShopAfterWave()
     {
+        shopOpened = true;
+
         if (shopManager != null)
         {
             shopManager.OpenShop();

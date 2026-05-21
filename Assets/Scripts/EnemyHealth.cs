@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public GameObject coinPrefab;
 
     private WaveManager waveManager;
+    private bool isDead = false;
 
     private void Start()
     {
@@ -14,21 +15,31 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         health -= damage;
 
         if (health <= 0)
         {
-            if (coinPrefab != null)
-            {
-                Instantiate(coinPrefab, transform.position, Quaternion.identity);
-            }
-
-            if (waveManager != null)
-            {
-                waveManager.EnemyDied();
-            }
-
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (coinPrefab != null)
+        {
+            Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (waveManager != null)
+        {
+            waveManager.EnemyDied();
+        }
+
+        Destroy(gameObject);
     }
 }
