@@ -39,4 +39,10 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Game Over");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    public void IncreaseMaxHealth()
+    {
+        maxHealth += 2;
+        currentHealth += 2;
+    }
 }
+

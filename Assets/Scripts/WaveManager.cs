@@ -9,13 +9,14 @@ public class WaveManager : MonoBehaviour
     public int currentWave = 1;
     public int baseEnemyCount = 3;
     public float timeBetweenSpawns = 0.5f;
-    public float timeBetweenWaves = 2f;
 
     private int enemiesAlive;
     private bool isSpawning;
+    private ShopManager shopManager;
 
     private void Start()
     {
+        shopManager = FindFirstObjectByType<ShopManager>();
         StartCoroutine(StartWave());
     }
 
@@ -48,14 +49,21 @@ public class WaveManager : MonoBehaviour
 
         if (enemiesAlive <= 0 && !isSpawning)
         {
-            currentWave++;
-            StartCoroutine(NextWaveDelay());
+            OpenShopAfterWave();
         }
     }
 
-    private IEnumerator NextWaveDelay()
+    private void OpenShopAfterWave()
     {
-        yield return new WaitForSeconds(timeBetweenWaves);
+        if (shopManager != null)
+        {
+            shopManager.OpenShop();
+        }
+    }
+
+    public void StartNextWaveFromShop()
+    {
+        currentWave++;
         StartCoroutine(StartWave());
     }
 }
