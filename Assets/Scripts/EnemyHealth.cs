@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int health = 3;
+    public GameObject coinPrefab;
 
     private WaveManager waveManager;
 
@@ -17,6 +18,11 @@ public class EnemyHealth : MonoBehaviour
 
         if (health <= 0)
         {
+            if (coinPrefab != null)
+            {
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+            }
+
             if (waveManager != null)
             {
                 waveManager.EnemyDied();
