@@ -9,6 +9,10 @@ public class PlayerAutoAttack : MonoBehaviour
 
     private float attackTimer;
 
+    public int CurrentDamage => bulletDamage;
+    public float CurrentAttackCooldown => attackCooldown;
+    public float AttacksPerSecond => 1f / attackCooldown;
+
     private void Update()
     {
         attackTimer -= Time.deltaTime;

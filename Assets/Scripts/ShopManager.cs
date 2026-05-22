@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
@@ -7,6 +8,8 @@ public class ShopManager : MonoBehaviour
     public PlayerAutoAttack playerAttack;
     public PlayerHealth playerHealth;
     public PlayerCurrency playerCurrency;
+
+    public TextMeshProUGUI playerStatsText;
 
     public int damageCost = 5;
     public int attackSpeedCost = 5;
@@ -24,6 +27,7 @@ public class ShopManager : MonoBehaviour
     {
         shopPanel.SetActive(true);
         Time.timeScale = 0f;
+        UpdateStatsText();
     }
 
     public void BuyDamageUpgrade()
@@ -31,6 +35,7 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(damageCost))
         {
             playerAttack.IncreaseDamage();
+            UpdateStatsText();
         }
     }
 
@@ -39,6 +44,7 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(attackSpeedCost))
         {
             playerAttack.IncreaseAttackSpeed();
+            UpdateStatsText();
         }
     }
 
@@ -47,7 +53,13 @@ public class ShopManager : MonoBehaviour
         if (playerCurrency.SpendGold(healthCost))
         {
             playerHealth.IncreaseMaxHealth();
+            UpdateStatsText();
         }
+    }
+
+    public void StartNextWave()
+    {
+        CloseShop();
     }
 
     private void CloseShop()
@@ -60,8 +72,16 @@ public class ShopManager : MonoBehaviour
             waveManager.StartNextWaveFromShop();
         }
     }
-    public void StartNextWave()
+
+    private void UpdateStatsText()
     {
-        CloseShop();
+        if (playerStatsText == null) return;
+
+        playerStatsText.text =
+            "Player Stats\n\n" +
+            "Damage: " + playerAttack.CurrentDamage + "\n" +
+            "Attack Speed: " + playerAttack.AttacksPerSecond.ToString("F2") + "/s\n" +
+            "Max HP: " + playerHealth.maxHealth + "\n" +
+            "Gold: " + playerCurrency.gold;
     }
 }

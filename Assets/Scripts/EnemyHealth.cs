@@ -6,8 +6,12 @@ public class EnemyHealth : MonoBehaviour
     public GameObject coinPrefab;
 
     private int currentHealth;
+    private int maxHealth;
     private WaveManager waveManager;
     private bool isDead = false;
+
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
 
     private void Start()
     {
@@ -15,12 +19,14 @@ public class EnemyHealth : MonoBehaviour
 
         if (waveManager != null)
         {
-            currentHealth = baseHealth + waveManager.currentWave;
+            maxHealth = baseHealth + waveManager.currentWave;
         }
         else
         {
-            currentHealth = baseHealth;
+            maxHealth = baseHealth;
         }
+
+        currentHealth = maxHealth;
     }
 
     public void TakeDamage(int damage)
