@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float baseMoveSpeed = 2f;
 
+    private float moveSpeed;
     private Transform player;
 
     private void Start()
@@ -14,6 +15,17 @@ public class EnemyMovement : MonoBehaviour
         {
             player = playerObject.transform;
         }
+
+        WaveManager waveManager = FindFirstObjectByType<WaveManager>();
+
+        if (waveManager != null)
+        {
+            moveSpeed = baseMoveSpeed + (waveManager.currentWave * 0.1f);
+        }
+        else
+        {
+            moveSpeed = baseMoveSpeed;
+        }
     }
 
     private void Update()
@@ -21,7 +33,6 @@ public class EnemyMovement : MonoBehaviour
         if (player != null)
         {
             Vector2 direction = (player.position - transform.position).normalized;
-
             transform.position += (Vector3)direction * moveSpeed * Time.deltaTime;
         }
     }
