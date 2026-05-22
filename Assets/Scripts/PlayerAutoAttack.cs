@@ -54,6 +54,11 @@ public class PlayerAutoAttack : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayShoot();
+        }
+
         Vector2 direction = target.position - transform.position;
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();

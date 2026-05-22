@@ -11,6 +11,12 @@ public class Coin : MonoBehaviour
         if (currency != null)
         {
             currency.AddGold(value);
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayCoinPickup();
+            }
+
             Destroy(gameObject);
         }
     }

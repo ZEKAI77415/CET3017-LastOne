@@ -32,6 +32,8 @@ public class ShopManager : MonoBehaviour
 
     public void BuyDamageUpgrade()
     {
+        PlayButtonSound();
+
         if (playerCurrency.SpendGold(damageCost))
         {
             playerAttack.IncreaseDamage();
@@ -41,6 +43,8 @@ public class ShopManager : MonoBehaviour
 
     public void BuyAttackSpeedUpgrade()
     {
+        PlayButtonSound();
+
         if (playerCurrency.SpendGold(attackSpeedCost))
         {
             playerAttack.IncreaseAttackSpeed();
@@ -50,6 +54,8 @@ public class ShopManager : MonoBehaviour
 
     public void BuyHealthUpgrade()
     {
+        PlayButtonSound();
+
         if (playerCurrency.SpendGold(healthCost))
         {
             playerHealth.IncreaseMaxHealth();
@@ -59,6 +65,7 @@ public class ShopManager : MonoBehaviour
 
     public void StartNextWave()
     {
+        PlayButtonSound();
         CloseShop();
     }
 
@@ -83,5 +90,13 @@ public class ShopManager : MonoBehaviour
             "Attack Speed: " + playerAttack.AttacksPerSecond.ToString("F2") + "/s\n" +
             "Max HP: " + playerHealth.maxHealth + "\n" +
             "Gold: " + playerCurrency.gold;
+    }
+
+    private void PlayButtonSound()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayButtonClick();
+        }
     }
 }
