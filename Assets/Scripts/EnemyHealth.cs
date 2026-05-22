@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
@@ -5,13 +6,17 @@ public class EnemyHealth : MonoBehaviour
     public int baseHealth = 3;
     public GameObject coinPrefab;
 
+    private TextMeshPro healthText;
+
     private int currentHealth;
     private int maxHealth;
     private WaveManager waveManager;
     private bool isDead = false;
 
-    public int CurrentHealth => currentHealth;
-    public int MaxHealth => maxHealth;
+    private void Awake()
+    {
+        healthText = GetComponentInChildren<TextMeshPro>();
+    }
 
     private void Start()
     {
@@ -27,6 +32,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        UpdateHealthText();
     }
 
     public void TakeDamage(int damage)
@@ -34,10 +40,19 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
+        UpdateHealthText();
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    private void UpdateHealthText()
+    {
+        if (healthText != null)
+        {
+            healthText.text = currentHealth + "/" + maxHealth;
         }
     }
 
